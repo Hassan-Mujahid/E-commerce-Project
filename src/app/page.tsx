@@ -2,6 +2,9 @@ import Image from "next/image";
 import { HeroSection } from "@/components/sections/hero-section";
 import { FeaturedSection } from "@/components/sections/featured-section";
 import { CategoriesSection } from "@/components/sections/categories-section";
+import { ProductGrid } from "@/components/product/product-grid";
+import { Suspense } from "react";
+import { ProductGridSkeleton } from "@/components/product/product-grid-skeleton";
 
 export default function Home() {
   return (
@@ -18,9 +21,9 @@ export default function Home() {
           </a>
         </div>
 
-        {/* <Suspense fallback={<ProductGridSkeleton />}>
-        <ProductGrid />
-      </Suspense> */}
+        <Suspense fallback={<ProductGridSkeleton />}>
+          <ProductGrid />
+        </Suspense>
       </section>
     </div>
   );
