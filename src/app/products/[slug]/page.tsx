@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { ProductInfoSkeleton } from "@/components/product/product-info-skeleton";
 import { ProductGallerySkeleton } from "@/components/product/product-gallery-skeleton";
 import { getMockProducts } from "@/lib/data";
+import { notFound } from "next/navigation";
 
 export const revalidate = 30; // ISR - revalidate every 30 seconds
 
@@ -40,7 +41,16 @@ export async function generateMetadata({
   };
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const products = await getMockProducts();
+  const product = products.find((p) => p.slug === params.slug);
+  if (!product) {
+    notFound();
+  }
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">

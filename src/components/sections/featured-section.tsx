@@ -29,7 +29,8 @@ export function FeaturedSection() {
         id: "1",
         name: "Wireless Headphones",
         price: 129.99,
-        image: "/placeholder.svg?height=300&width=300",
+        image:
+          "https://images.unsplash.com/photo-1565935192924-21a9ddca26eb?q=80&w=300&h=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         category: "Electronics",
         slug: "wireless-headphones",
       },

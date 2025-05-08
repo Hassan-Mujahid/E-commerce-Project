@@ -19,10 +19,10 @@ export async function getMockProducts() {
       inStock: true,
       category: "Electronics",
       images: [
-        "/placeholder.svg?height=400&width=400",
-        "/placeholder.svg?height=400&width=400",
-        "/placeholder.svg?height=400&width=400",
-        "/placeholder.svg?height=400&width=400",
+        "https://images.unsplash.com/photo-1565935192924-21a9ddca26eb?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1591588979429-5f5dc6b32418?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1585666681089-0b14e55c6e22?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1596628319258-c6f3f387a1ed?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ],
       colors: ["#000000", "#FFFFFF", "#FF0000"],
       specifications: [

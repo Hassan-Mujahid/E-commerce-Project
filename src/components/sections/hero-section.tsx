@@ -42,7 +42,7 @@ export function HeroSection() {
             <div className="relative h-[350px] w-full overflow-hidden rounded-xl bg-muted">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-muted-foreground/20" />
               <img
-                src="/placeholder.svg?height=600&width=800"
+                src="https://images.unsplash.com/photo-1577048724846-cd9ff1dcacef?q=80&w=800&h=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Hero Image"
                 className="h-full w-full object-cover"
               />
