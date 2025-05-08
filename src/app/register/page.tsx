@@ -29,12 +29,23 @@ export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
 
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match", {
         description: "Please make sure your passwords match",
+      });
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      toast.error("Weak password", {
+        description:
+          "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.",
       });
       return;
     }
