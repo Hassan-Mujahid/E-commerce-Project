@@ -8,8 +8,8 @@ import { Upload, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ImageUploadProps {
-  images: string[];
-  setImages: (images: string[]) => void;
+  images: File[];
+  setImages: (images: File[]) => void;
   maxImages?: number;
 }
 
@@ -19,6 +19,7 @@ export function ImageUpload({
   maxImages = 5,
 }: ImageUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -45,34 +46,27 @@ export function ImageUpload({
   };
 
   const handleFiles = (files: FileList) => {
-    if (images.length >= maxImages) {
-      alert(`You can only upload a maximum of ${maxImages} images.`);
-      return;
-    }
+    const incomingFiles = Array.from(files).filter((file) =>
+      file.type.startsWith("image/")
+    );
 
-    const newImages: string[] = [];
+    const validNewFiles = incomingFiles.slice(0, maxImages - images.length);
 
-    Array.from(files).forEach((file) => {
-      if (images.length + newImages.length >= maxImages) return;
+    if (validNewFiles.length === 0) return;
 
-      if (!file.type.startsWith("image/")) {
-        alert("Please upload image files only.");
-        return;
-      }
+    const newPreviews = validNewFiles.map((file) => URL.createObjectURL(file));
 
-      // In a real app, you would upload to a server or cloud storage
-      // For this demo, we'll use a local URL
-      const imageUrl = URL.createObjectURL(file);
-      newImages.push(imageUrl);
-    });
-
-    setImages([...images, ...newImages]);
+    setImages([...images, ...validNewFiles]);
+    setPreviews([...previews, ...newPreviews]);
   };
 
   const removeImage = (index: number) => {
     const newImages = [...images];
+    const newPreviews = [...previews];
     newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
     setImages(newImages);
+    setPreviews(newPreviews);
   };
 
   return (
@@ -109,7 +103,7 @@ export function ImageUpload({
       {images.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <AnimatePresence>
-            {images.map((image, index) => (
+            {previews.map((image, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.8 }}

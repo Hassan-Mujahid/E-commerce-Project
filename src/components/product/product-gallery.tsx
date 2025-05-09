@@ -12,8 +12,11 @@ export function ProductGallery({ slug }: { slug: string }) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const data = await getMockProductBySlug(slug);
-      setProduct(data);
+      const res = await fetch(`/api/products/${slug}`);
+      if (res.ok) {
+        const data = await res.json();
+        setProduct(data);
+      }
     };
 
     fetchProduct();

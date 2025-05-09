@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { getMockProducts } from "@/lib/data";
+import { getAllProducts } from "@/lib/getProducts";
 
 interface ProductGridProps {
   query?: string;
@@ -13,7 +14,7 @@ interface ProductGridProps {
 
 export async function ProductGrid({ query, category, sort }: ProductGridProps) {
   // This would be replaced with actual API call
-  const products = await getMockProducts();
+  const products = await getAllProducts();
 
   // Filter products based on query and category
   const filteredProducts = products.filter((product) => {
@@ -47,8 +48,8 @@ export async function ProductGrid({ query, category, sort }: ProductGridProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {sortedProducts.map((product) => (
-        <Card key={product.id} className="overflow-hidden group">
+      {sortedProducts.map((product, index) => (
+        <Card key={index} className="overflow-hidden group">
           <div className="relative aspect-square overflow-hidden">
             <Link href={`/products/${product.slug}`}>
               <img

@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { useAuth } from "@/context/auth-context";
+import { addProductAction } from "@/services/product";
 
 export default function AddProductPage() {
   const [name, setName] = useState("");
@@ -35,7 +36,7 @@ export default function AddProductPage() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { isAdmin } = useAuth();
   const router = useRouter();
@@ -45,33 +46,85 @@ export default function AddProductPage() {
     }
   }, [isAdmin]);
 
+  const uploadToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Image upload failed");
+    const data = await res.json();
+    return data.url;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // This would be replaced with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const imageUrls = await Promise.all(images.map(uploadToCloudinary));
 
-      toast("Product added", {
-        description: "The product has been added successfully",
+      const result = await addProductAction({
+        name,
+        slug: name.toLowerCase().split(" ").join("-"),
+        description,
+        price,
+        category,
+        inStock: stock === "true",
+        images: imageUrls,
       });
 
-      // Reset form
-      setName("");
-      setDescription("");
-      setPrice("");
-      setCategory("");
-      setStock("");
-      setImages([]);
-    } catch (error) {
-      toast.error("Error", {
-        description: "There was an error adding the product",
-      });
+      console.log("result:", result);
+      if (result.success) {
+        toast.success("Product added", {
+          description: "The product has been added successfully!",
+        });
+        setName("");
+        setDescription("");
+        setPrice("");
+        setCategory("");
+        setStock("true");
+        setImages([]);
+      } else {
+        toast.error("Error", { description: "Validation or DB error" });
+      }
+    } catch (err: any) {
+      toast.error(err.message, { description: "Something went wrong" });
     } finally {
       setIsLoading(false);
     }
   };
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+
+  //   try {
+  //     // This would be replaced with actual API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  //     toast("Product added", {
+  //       description: "The product has been added successfully",
+  //     });
+
+  //     // Reset form
+  //     setName("");
+  //     setDescription("");
+  //     setPrice("");
+  //     setCategory("");
+  //     setStock("");
+  //     setImages([]);
+  //   } catch (error) {
+  //     toast.error("Error", {
+  //       description: "There was an error adding the product",
+  //     });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -13,7 +13,7 @@ type Product = {
   id: string;
   name: string;
   price: number;
-  image: string;
+  images: string[];
   category: string;
   slug: string;
 };
@@ -24,43 +24,54 @@ export function FeaturedSection() {
 
   useEffect(() => {
     // Mock data - would be replaced with actual API call
-    const featuredProducts = [
-      {
-        id: "1",
-        name: "Wireless Headphones",
-        price: 129.99,
-        image:
-          "https://images.unsplash.com/photo-1565935192924-21a9ddca26eb?q=80&w=300&h=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        category: "Electronics",
-        slug: "wireless-headphones",
-      },
-      {
-        id: "2",
-        name: "Smart Watch",
-        price: 199.99,
-        image: "/placeholder.svg?height=300&width=300",
-        category: "Electronics",
-        slug: "smart-watch",
-      },
-      {
-        id: "3",
-        name: "Premium Backpack",
-        price: 79.99,
-        image: "/placeholder.svg?height=300&width=300",
-        category: "Accessories",
-        slug: "premium-backpack",
-      },
-      {
-        id: "4",
-        name: "Fitness Tracker",
-        price: 89.99,
-        image: "/placeholder.svg?height=300&width=300",
-        category: "Electronics",
-        slug: "fitness-tracker",
-      },
-    ];
+    // const featuredProducts = [
+    //   {
+    //     id: "1",
+    //     name: "Wireless Headphones",
+    //     price: 129.99,
+    //     image:
+    //       "https://images.unsplash.com/photo-1565935192924-21a9ddca26eb?q=80&w=300&h=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    //     category: "Electronics",
+    //     slug: "wireless-headphones",
+    //   },
+    //   {
+    //     id: "2",
+    //     name: "Smart Watch",
+    //     price: 199.99,
+    //     image: "/placeholder.svg?height=300&width=300",
+    //     category: "Electronics",
+    //     slug: "smart-watch",
+    //   },
+    //   {
+    //     id: "3",
+    //     name: "Premium Backpack",
+    //     price: 79.99,
+    //     image: "/placeholder.svg?height=300&width=300",
+    //     category: "Accessories",
+    //     slug: "premium-backpack",
+    //   },
+    //   {
+    //     id: "4",
+    //     name: "Fitness Tracker",
+    //     price: 89.99,
+    //     image: "/placeholder.svg?height=300&width=300",
+    //     category: "Electronics",
+    //     slug: "fitness-tracker",
+    //   },
+    // ];
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      }
+    }
 
-    setProducts(featuredProducts);
+    fetchProducts();
+
+    // setProducts(featuredProducts);
   }, []);
 
   return (
@@ -85,7 +96,7 @@ export function FeaturedSection() {
                 <div className="relative aspect-square overflow-hidden">
                   <Link href={`/products/${product.slug}`}>
                     <img
-                      src={product.image || "/placeholder.svg"}
+                      src={product?.images[0]}
                       alt={product.name}
                       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -111,7 +122,7 @@ export function FeaturedSection() {
                             id: product.id,
                             name: product.name,
                             price: product.price,
-                            image: product.image,
+                            image: product.images[0],
                           })
                         }
                       >

@@ -6,11 +6,12 @@ import { ProductInfoSkeleton } from "@/components/product/product-info-skeleton"
 import { ProductGallerySkeleton } from "@/components/product/product-gallery-skeleton";
 import { getMockProducts } from "@/lib/data";
 import { notFound } from "next/navigation";
+import { getAllProducts } from "@/lib/getProducts";
 
 export const revalidate = 30; // ISR - revalidate every 30 seconds
 
 export async function generateStaticParams() {
-  const products = await getMockProducts();
+  const products = await getAllProducts();
 
   return products.map((product) => ({
     slug: product.slug,
@@ -22,7 +23,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const products = await getMockProducts();
+  const products = await getAllProducts();
   const product = products.find((p) => p.slug === params.slug);
 
   if (!product) {
@@ -46,7 +47,7 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const products = await getMockProducts();
+  const products = await getAllProducts();
   const product = products.find((p) => p.slug === params.slug);
   if (!product) {
     notFound();

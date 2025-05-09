@@ -15,8 +15,11 @@ export function ProductInfo({ slug }: { slug: string }) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const data = await getMockProductBySlug(slug);
-      setProduct(data);
+      const res = await fetch(`/api/products/${slug}`);
+      if (res.ok) {
+        const data = await res.json();
+        setProduct(data);
+      }
     };
 
     fetchProduct();
@@ -79,7 +82,7 @@ export function ProductInfo({ slug }: { slug: string }) {
         <p className="text-3xl font-bold">${product.price.toFixed(2)}</p>
         {product.oldPrice && (
           <p className="text-muted-foreground line-through mt-1">
-            ${product.oldPrice.toFixed(2)}
+            ${Number(product.price + 30).toFixed(2)}
           </p>
         )}
       </div>
@@ -99,7 +102,7 @@ export function ProductInfo({ slug }: { slug: string }) {
           <span>{product.category}</span>
         </div>
 
-        {product.colors && (
+        {/* {product.colors && (
           <div className="flex items-center">
             <span className="w-24 font-medium">Color:</span>
             <div className="flex gap-2">
@@ -113,7 +116,7 @@ export function ProductInfo({ slug }: { slug: string }) {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {product.sizes && (
           <div className="flex items-center">
@@ -160,9 +163,9 @@ export function ProductInfo({ slug }: { slug: string }) {
       </div>
 
       <Tabs defaultValue="description">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="description">Description</TabsTrigger>
-          <TabsTrigger value="specifications">Specifications</TabsTrigger>
+          {/* <TabsTrigger value="specifications">Specifications</TabsTrigger> */}
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent value="description" className="pt-4">
@@ -170,7 +173,7 @@ export function ProductInfo({ slug }: { slug: string }) {
             <p>{product.fullDescription || product.description}</p>
           </div>
         </TabsContent>
-        <TabsContent value="specifications" className="pt-4">
+        {/* <TabsContent value="specifications" className="pt-4">
           <div className="space-y-4">
             <ul className="space-y-2">
               {product.specifications?.map((spec: any, index: number) => (
@@ -181,7 +184,7 @@ export function ProductInfo({ slug }: { slug: string }) {
               )) || <p>No specifications available</p>}
             </ul>
           </div>
-        </TabsContent>
+        </TabsContent> */}
         <TabsContent value="reviews" className="pt-4">
           <div className="space-y-4">
             <p>Customer reviews will be displayed here.</p>
