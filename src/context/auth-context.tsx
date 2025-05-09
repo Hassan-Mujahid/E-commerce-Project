@@ -3,7 +3,8 @@
 import type React from "react";
 
 import { createContext, useContext, useState, useEffect } from "react";
-
+import { getCurrentUser } from "@/lib/getCurrentUser";
+import { get } from "http";
 type User = {
   id: string;
   name: string;
@@ -14,9 +15,10 @@ type User = {
 type AuthContextType = {
   user: User | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  // login: (email: string, password: string) => Promise<void>;
+  // register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  syncUser: () => Promise<void>;
   isAdmin: boolean;
 };
 
@@ -31,9 +33,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         // This would be replaced with actual API call
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUser({
+            id: currentUser.id,
+            name: currentUser.name,
+            email: currentUser.email,
+            role: currentUser.role,
+          });
         }
       } catch (error) {
         console.error("Auth check failed:", error);
@@ -45,58 +52,77 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      // This would be replaced with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  // const login = async (email: string, password: string) => {
+  //   setIsLoading(true);
+  //   try {
+  //     // This would be replaced with actual API call
 
-      // Mock user data
-      const userData: User = {
-        id: "user_123",
-        name: "John Doe",
-        email,
-        role: email.includes("admin") ? "admin" : "user",
-      };
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     // Mock user data
+  //     const userData: User = {
+  //       id: "user_123",
+  //       name: "John Doe",
+  //       email,
+  //       role: email.includes("admin") ? "admin" : "user",
+  //     };
 
-  const register = async (name: string, email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      // This would be replaced with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  //     setUser(userData);
+  //     localStorage.setItem("user", JSON.stringify(userData));
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-      // Mock user data
-      const userData: User = {
-        id: "user_" + Math.random().toString(36).substr(2, 9),
-        name,
-        email,
-        role: "user",
-      };
+  // const register = async (name: string, email: string, password: string) => {
+  //   setIsLoading(true);
+  //   try {
+  //     // This would be replaced with actual API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     // Mock user data
+  //     const userData: User = {
+  //       id: "user_" + Math.random().toString(36).substr(2, 9),
+  //       name,
+  //       email,
+  //       role: "user",
+  //     };
+
+  //     setUser(userData);
+  //     localStorage.setItem("user", JSON.stringify(userData));
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const logout = async () => {
     setIsLoading(true);
     try {
-      // This would be replaced with actual API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
       setUser(null);
-      localStorage.removeItem("user");
+    } catch (error) {
+      console.error("Logout failed:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Method to manually sync user (e.g., after login/register)
+  const syncUser = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      if (currentUser)
+        setUser({
+          id: currentUser.id,
+          name: currentUser.name,
+          email: currentUser.email,
+          role: currentUser.role,
+        });
+    } catch (error) {
+      console.error("Failed to sync user:", error);
     }
   };
 
@@ -107,9 +133,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         isLoading,
-        login,
-        register,
+        // login,
+        // register,
         logout,
+        syncUser,
         isAdmin,
       }}
     >

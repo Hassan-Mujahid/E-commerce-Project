@@ -12,14 +12,27 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { verifyJWT } from "@/lib/auth";
+// import { cookies } from "next/headers";
+import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export default function Header() {
+  const [token, setToken] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, isAdmin } = useAuth();
   const { totalItems } = useCart();
   const pathname = usePathname();
+
+  // Verify JWT token
+  useEffect(() => {
+    if (token) {
+      const decoded = verifyJWT(token);
+      console.log("decoded:", decoded);
+    }
+  }, [token]);
+  console.log("token:", token);
 
   useEffect(() => {
     const handleScroll = () => {

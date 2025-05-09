@@ -24,7 +24,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { syncUser } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,13 +33,23 @@ export default function LoginPage() {
 
     try {
       // This would be replaced with actual API call
-      await login(email, password);
-      toast("Login successful", {
-        description: "You have been logged in successfully",
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
-      router.push("/dashboard");
-    } catch (error) {
-      toast.error("Login failed", {
+      await syncUser();
+      const data = await res.json();
+      if (data.success) {
+        toast("Login successful", {
+          description: "You have been logged in successfully",
+        });
+        router.push("/dashboard");
+      } else if (data.error) {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message, {
         description: "Please check your credentials and try again",
       });
     } finally {

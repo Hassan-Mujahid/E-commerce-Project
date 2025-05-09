@@ -54,7 +54,7 @@ export function RecentOrders() {
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Total</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              {/* <TableHead className="text-right">Actions</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -73,12 +73,12 @@ export function RecentOrders() {
                   </Badge>
                 </TableCell>
                 <TableCell>${order.total.toFixed(2)}</TableCell>
-                <TableCell className="text-right">
+                {/* <TableCell className="text-right">
                   <Button variant="ghost" size="sm">
                     <Eye className="h-4 w-4 mr-2" />
                     View
                   </Button>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

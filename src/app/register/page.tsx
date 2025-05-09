@@ -54,13 +54,22 @@ export default function RegisterPage() {
 
     try {
       // This would be replaced with actual API call
-      await register(name, email, password);
-      toast.success("Registration successful", {
-        description: "Your account has been created successfully",
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
       });
-      router.push("/dashboard");
-    } catch (error) {
-      toast.error("Registration failed", {
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Registration successful", {
+          description: "Your account has been created successfully",
+        });
+        router.push("/login");
+      } else if (data.error) {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message, {
         description: "There was an error creating your account",
       });
     } finally {
