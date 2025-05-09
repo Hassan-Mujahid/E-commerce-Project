@@ -26,7 +26,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
   const router = useRouter();
 
   const passwordRegex =

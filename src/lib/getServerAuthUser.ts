@@ -13,6 +13,5 @@ export async function getServerAuthUser() {
   if (!payload) return null;
 
   const user = await User.findById(payload.id).select("-password");
-  console.log("userAuth:", user);
   return user;
 }

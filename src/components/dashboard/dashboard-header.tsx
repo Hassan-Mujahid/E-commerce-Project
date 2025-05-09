@@ -31,7 +31,7 @@ export function DashboardHeader({ user }: { user: any }) {
               <span className="font-semibold">NextShop</span>
             </Link>
             <span className="text-muted-foreground">|</span>
-            <span className="text-sm font-medium">Customer Dashboard</span>
+            <span className="text-sm font-medium pr-2">Customer Dashboard</span>
           </motion.div>
 
           <motion.div

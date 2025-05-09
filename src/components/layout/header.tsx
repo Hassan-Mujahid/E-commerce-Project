@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context";
 import { useCart } from "@/context/cart-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
+import { ShoppingCart, User, Search, Menu, X, House } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,22 +17,12 @@ import { verifyJWT } from "@/lib/auth";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export default function Header() {
-  const [token, setToken] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, isAdmin } = useAuth();
   const { totalItems } = useCart();
   const pathname = usePathname();
-
-  // Verify JWT token
-  useEffect(() => {
-    if (token) {
-      const decoded = verifyJWT(token);
-      console.log("decoded:", decoded);
-    }
-  }, [token]);
-  console.log("token:", token);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,9 +41,9 @@ export default function Header() {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Shop", href: "/search" },
-    { name: "Categories", href: "/categories" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    // { name: "Categories", href: "/categories" },
+    // { name: "About", href: "/about" },
+    // { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -88,6 +78,19 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href={"/admin/add-product"}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  pathname === "/admin/add-product"
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                )}
+              >
+                Add Product
+              </Link>
+            )}
           </nav>
 
           {/* Actions */}
@@ -160,10 +163,10 @@ export default function Header() {
             className="md:hidden border-t"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
-              <div className="relative">
+              {/* <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="Search products..." className="pl-10" />
-              </div>
+              </div> */}
 
               <nav className="flex flex-col space-y-4">
                 {navItems.map((item) => (

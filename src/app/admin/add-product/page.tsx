@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,7 @@ import {
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { ImageUpload } from "@/components/admin/image-upload";
+import { useAuth } from "@/context/auth-context";
 
 export default function AddProductPage() {
   const [name, setName] = useState("");
@@ -36,7 +37,13 @@ export default function AddProductPage() {
   const [stock, setStock] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { isAdmin } = useAuth();
   const router = useRouter();
+  useEffect(() => {
+    if (!isAdmin) {
+      router.replace("/");
+    }
+  }, [isAdmin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
