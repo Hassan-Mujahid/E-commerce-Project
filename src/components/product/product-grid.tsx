@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { getAllProducts } from "@/lib/getProducts";
+import { useCart } from "@/context/cart-context";
+// import { getAllProducts } from "@/lib/getProducts";
 
 interface ProductGridProps {
   query?: string;
@@ -11,9 +15,36 @@ interface ProductGridProps {
   sort?: string;
 }
 
-export async function ProductGrid({ query, category, sort }: ProductGridProps) {
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  images: string[];
+  category: string;
+  slug: string;
+  createdAt: string;
+  description: string;
+};
+
+export function ProductGrid({ query, category, sort }: ProductGridProps) {
   // This would be replaced with actual API call
-  const products = await getAllProducts();
+  // const products = await getAllProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+  const { addItem } = useCart();
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   // Filter products based on query and category
   const filteredProducts = products.filter((product) => {
@@ -74,13 +105,24 @@ export async function ProductGrid({ query, category, sort }: ProductGridProps) {
               </p>
               <div className="flex items-center justify-between">
                 <p className="font-bold">${product.price.toFixed(2)}</p>
-                <form action="/api/cart" method="POST">
-                  <input type="hidden" name="productId" value={product.id} />
-                  <Button size="sm" type="submit">
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    Add
-                  </Button>
-                </form>
+                {/* <form action="/api/cart" method="POST"> */}
+                {/* <input type="hidden" name="productId" value={product.id} /> */}
+                <Button
+                  size="sm"
+                  type="submit"
+                  onClick={() =>
+                    addItem({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image: product.images[0],
+                    })
+                  }
+                >
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Add
+                </Button>
+                {/* </form> */}
               </div>
             </div>
           </CardContent>
