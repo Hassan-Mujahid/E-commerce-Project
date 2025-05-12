@@ -1,12 +1,10 @@
 export const dynamic = "force-dynamic";
 
-import { verifyJWT } from "@/lib/auth";
-import { cookies } from "next/headers";
 import type React from "react";
-import { DashboardNav } from "@/components/dashboard/dashboard-nav";
+// import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { redirect } from "next/navigation";
-import { getMockUser } from "@/lib/data";
+// import { getMockUser } from "@/lib/data";
 import { getServerAuthUser } from "@/lib/getServerAuthUser";
 
 export default async function DashboardLayout({

@@ -9,8 +9,31 @@ import { ShoppingCart } from "lucide-react";
 import { getMockRelatedProducts } from "@/lib/data";
 import { motion } from "framer-motion";
 
+type Specification = {
+  name: string;
+  value: string;
+};
+
+export type Product = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  oldPrice?: number | null; // nullable and optional
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  category: string;
+  images: string[];
+  colors: string[];
+  sizes?: string[]; // optional
+  specifications: Specification[];
+  createdAt: string | Date; // accepts either depending on use
+};
+
 export function RelatedProducts({ slug }: { slug: string }) {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const { addItem } = useCart();
 
   useEffect(() => {

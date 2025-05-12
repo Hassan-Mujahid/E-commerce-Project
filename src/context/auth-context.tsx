@@ -4,7 +4,6 @@ import type React from "react";
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { getCurrentUser } from "@/lib/getCurrentUser";
-import { get } from "http";
 type User = {
   id: string;
   name: string;

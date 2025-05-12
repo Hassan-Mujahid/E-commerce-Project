@@ -6,15 +6,11 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { useCart } from "@/context/cart-context";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ShoppingCart, User, Search, Menu, X, House } from "lucide-react";
+import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { verifyJWT } from "@/lib/auth";
-// import { cookies } from "next/headers";
-import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

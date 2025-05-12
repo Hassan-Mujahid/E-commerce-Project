@@ -7,7 +7,14 @@ import { useAuth } from "@/context/auth-context";
 import { LogOut, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function DashboardHeader({ user }: { user: any }) {
+type UserType = {
+  name: string;
+  id: string;
+  email: string;
+  role: string;
+};
+
+export function DashboardHeader({ user }: { user: UserType }) {
   const router = useRouter();
   const { logout } = useAuth();
 

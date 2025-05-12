@@ -4,14 +4,15 @@ import { SearchHeader } from "@/components/search/search-header";
 import { Suspense } from "react";
 import { ProductGridSkeleton } from "@/components/product/product-grid-skeleton";
 
-export default function SearchPage({
+export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { q?: string; category?: string; sort?: string };
+  searchParams: Promise<{ q?: string; category?: string; sort?: string }>;
 }) {
-  const query = searchParams.q || "";
-  const category = searchParams.category || "";
-  const sort = searchParams.sort || "newest";
+  const searchParam = await searchParams;
+  const query = searchParam.q || "";
+  const category = searchParam.category || "";
+  const sort = searchParam.sort || "newest";
 
   return (
     <div className="container mx-auto px-4 py-8">

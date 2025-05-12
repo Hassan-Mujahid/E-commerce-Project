@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
   rating: z.coerce.number().min(0).max(5).default(4.5),
   reviews: z.coerce.number().min(0).default(128),
   category: z.string().min(1),
-  inStock: z.boolean(),
+  inStock: z.boolean().default(true),
   images: z.array(z.string().url()).min(1),
   colors: z.array(z.string()).optional(),
   sizes: z.array(z.string()).optional(),

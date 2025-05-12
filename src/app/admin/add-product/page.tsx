@@ -44,7 +44,7 @@ export default function AddProductPage() {
     if (!isAdmin) {
       router.replace("/");
     }
-  }, [isAdmin]);
+  }, [isAdmin, router]);
 
   const uploadToCloudinary = async (file: File) => {
     const formData = new FormData();
@@ -91,8 +91,14 @@ export default function AddProductPage() {
       } else {
         toast.error("Error", { description: "Validation or DB error" });
       }
-    } catch (err: any) {
-      toast.error(err.message, { description: "Something went wrong" });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message, { description: "Something went wrong" });
+      } else {
+        toast.error("An unexpected error occurred", {
+          description: "Something went wrong",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -173,7 +179,9 @@ export default function AddProductPage() {
                     id="description"
                     rows={5}
                     value={description}
-                    onChange={(e: any) => setDescription(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setDescription(e.target.value)
+                    }
                     required
                   />
                 </div>

@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyJWT } from "@/lib/auth";
-import jwt from "jsonwebtoken";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;

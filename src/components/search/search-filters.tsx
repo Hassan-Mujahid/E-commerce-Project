@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   Accordion,
@@ -19,6 +19,12 @@ interface SearchFiltersProps {
   selectedSort?: string;
 }
 
+type Category = {
+  id: string;
+  name: string;
+  count: number;
+};
+
 export function SearchFilters({
   selectedCategory,
   selectedSort,
@@ -28,13 +34,16 @@ export function SearchFilters({
   const searchParams = useSearchParams();
 
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [categories, setCategories] = useState([
-    { id: "electronics", name: "Electronics", count: 42 },
-    { id: "clothing", name: "Clothing", count: 38 },
-    { id: "home", name: "Home & Kitchen", count: 24 },
-    { id: "books", name: "Books", count: 15 },
-    { id: "toys", name: "Toys & Games", count: 12 },
-  ]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  useEffect(() => {
+    setCategories([
+      { id: "electronics", name: "Electronics", count: 42 },
+      { id: "clothing", name: "Clothing", count: 38 },
+      { id: "home", name: "Home & Kitchen", count: 24 },
+      { id: "books", name: "Books", count: 15 },
+      { id: "toys", name: "Toys & Games", count: 12 },
+    ]);
+  });
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());

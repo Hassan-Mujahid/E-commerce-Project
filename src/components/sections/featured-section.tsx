@@ -96,7 +96,7 @@ export function FeaturedSection() {
                 <div className="relative aspect-square overflow-hidden">
                   <Link href={`/products/${product.slug}`}>
                     <img
-                      src={product?.images[0]}
+                      src={product.images?.[0] || "/placeholder.svg"}
                       alt={product.name}
                       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />

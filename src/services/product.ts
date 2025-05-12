@@ -16,7 +16,7 @@ export async function addProductAction(input: unknown) {
     await ProductModel.create(parsed.data);
     revalidatePath("/admin/products");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: "Database error" };
   }
 }

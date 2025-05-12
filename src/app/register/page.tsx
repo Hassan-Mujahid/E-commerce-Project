@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/auth-context";
+// import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -67,10 +67,16 @@ export default function RegisterPage() {
       } else if (data.error) {
         throw new Error(data.error);
       }
-    } catch (error: any) {
-      toast.error(error.message, {
-        description: "There was an error creating your account",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message, {
+          description: "There was an error creating your account",
+        });
+      } else {
+        toast.error("Error!", {
+          description: "There was an error creating your account",
+        });
+      }
     } finally {
       setIsLoading(false);
     }

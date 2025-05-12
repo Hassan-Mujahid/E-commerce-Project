@@ -4,7 +4,7 @@ import { RelatedProducts } from "@/components/product/related-products";
 import { Suspense } from "react";
 import { ProductInfoSkeleton } from "@/components/product/product-info-skeleton";
 import { ProductGallerySkeleton } from "@/components/product/product-gallery-skeleton";
-import { getMockProducts } from "@/lib/data";
+// import { getMockProducts } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { getAllProducts } from "@/lib/getProducts";
 
@@ -21,10 +21,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const param = await params;
   const products = await getAllProducts();
-  const product = products.find((p) => p.slug === params.slug);
+  const product = products.find((p) => p.slug === param.slug);
 
   if (!product) {
     return {
@@ -45,10 +46,11 @@ export async function generateMetadata({
 export default async function ProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const param = await params;
   const products = await getAllProducts();
-  const product = products.find((p) => p.slug === params.slug);
+  const product = products.find((p) => p.slug === param.slug);
   if (!product) {
     notFound();
   }
@@ -56,15 +58,15 @@ export default async function ProductPage({
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         <Suspense fallback={<ProductGallerySkeleton />}>
-          <ProductGallery slug={params.slug} />
+          <ProductGallery slug={param.slug} />
         </Suspense>
 
         <Suspense fallback={<ProductInfoSkeleton />}>
-          <ProductInfo slug={params.slug} />
+          <ProductInfo slug={param.slug} />
         </Suspense>
       </div>
 
-      <RelatedProducts slug={params.slug} />
+      <RelatedProducts slug={param.slug} />
     </div>
   );
 }

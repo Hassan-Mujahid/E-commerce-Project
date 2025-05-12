@@ -10,13 +10,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
 import { getMockOrders } from "@/lib/data";
 import { motion } from "framer-motion";
 
+type ItemsType = {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+};
+
+type OrderType = {
+  id: string;
+  date: string;
+  status: string;
+  total: number;
+  items: ItemsType[];
+};
+
 export function RecentOrders() {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {

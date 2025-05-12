@@ -8,6 +8,7 @@ export async function GET() {
     await connectToDB();
 
     const products = await Product.find().limit(4).lean();
+    console.log("products:", products);
 
     return NextResponse.json(products);
   } catch (error) {

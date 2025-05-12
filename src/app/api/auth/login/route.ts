@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   const { email, password } = await req.json();
   try {
     const user = await validateUser(email, password);
-    const token = signJWT({ id: user._id, role: user.role }, "1d");
+    const token = signJWT({ id: user._id, role: user.role });
 
     const res = NextResponse.json({ success: true });
     res.cookies.set("token", token, {
@@ -15,7 +15,11 @@ export async function POST(req: Request) {
       maxAge: 86400,
     });
     return res;
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 401 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 401 });
+    } else {
+      return NextResponse.json({ error: "Error" }, { status: 401 });
+    }
   }
 }

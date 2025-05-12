@@ -2,7 +2,13 @@ import { User } from "@/models/user";
 import { connectToDB } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
-export async function createUser({ name, email, password }: any) {
+type User = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export async function createUser({ name, email, password }: User) {
   await connectToDB();
   const existing = await User.findOne({ email });
   if (existing) throw new Error("User exists");

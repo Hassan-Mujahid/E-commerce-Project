@@ -5,11 +5,28 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
 import { ShoppingCart, Heart } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getMockProductBySlug } from "@/lib/data";
 import { motion } from "framer-motion";
 
+export interface Product {
+  _id: string; // or ObjectId if you want to import it from MongoDB types
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  category: string;
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  images: string[];
+  colors: string[];
+  sizes: string[];
+  specifications: Record<string, string>[]; // or a more specific type if you define it
+  createdAt: string; // or Date if parsing from backend
+  __v: number;
+}
+
 export function ProductInfo({ slug }: { slug: string }) {
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
@@ -31,10 +48,11 @@ export function ProductInfo({ slug }: { slug: string }) {
 
   const handleAddToCart = () => {
     addItem({
-      id: product.id,
+      id: product._id,
       name: product.name,
       price: product.price,
       image: product.images[0],
+      quantity,
     });
   };
 
@@ -80,7 +98,7 @@ export function ProductInfo({ slug }: { slug: string }) {
 
       <div>
         <p className="text-3xl font-bold">${product.price.toFixed(2)}</p>
-        {product.oldPrice && (
+        {product.price && (
           <p className="text-muted-foreground line-through mt-1">
             ${Number(product.price + 30).toFixed(2)}
           </p>
@@ -170,7 +188,7 @@ export function ProductInfo({ slug }: { slug: string }) {
         </TabsList>
         <TabsContent value="description" className="pt-4">
           <div className="space-y-4">
-            <p>{product.fullDescription || product.description}</p>
+            <p>{product.description}</p>
           </div>
         </TabsContent>
         {/* <TabsContent value="specifications" className="pt-4">

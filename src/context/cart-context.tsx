@@ -14,9 +14,12 @@ type CartItem = {
   quantity: number;
 };
 
+type CartItemOptionalQuantity = Omit<CartItem, "quantity"> &
+  Partial<Pick<CartItem, "quantity">>;
+
 type CartContextType = {
   items: CartItem[];
-  addItem: (item: Omit<CartItem, "quantity">) => void;
+  addItem: (item: CartItemOptionalQuantity) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -50,7 +53,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items]);
 
-  const addItem = (newItem: Omit<CartItem, "quantity">) => {
+  const addItem = (newItem: CartItemOptionalQuantity) => {
     setItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === newItem.id);
 

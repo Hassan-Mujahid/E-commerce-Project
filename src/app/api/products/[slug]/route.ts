@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { getProductBySlug } from "@/lib/getProducts";
 
 // this must match the correct signature for dynamic routes
 export async function GET(
-  request: Request,
-  context: { params: { slug: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = context.params;
+  const { slug } = await params;
 
   try {
     const product = await getProductBySlug(slug);

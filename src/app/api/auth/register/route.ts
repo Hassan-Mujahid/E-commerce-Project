@@ -10,9 +10,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: errorMessages?.[0] }, { status: 400 });
 
   try {
-    const user = await createUser(parsed.data);
+    await createUser(parsed.data);
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    return NextResponse.json({ message: err.message }, { status: 400 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 401 });
+    } else {
+      return NextResponse.json({ error: "Error" }, { status: 401 });
+    }
   }
 }

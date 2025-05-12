@@ -4,10 +4,27 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getMockProductBySlug } from "@/lib/data";
+
+export interface Product {
+  _id: string; // or ObjectId if you want to import it from MongoDB types
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  category: string;
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  images: string[];
+  colors: string[];
+  sizes: string[];
+  specifications: Record<string, string>[]; // or a more specific type if you define it
+  createdAt: string; // or Date if parsing from backend
+  __v: number;
+}
 
 export function ProductGallery({ slug }: { slug: string }) {
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {

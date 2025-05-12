@@ -48,10 +48,16 @@ export default function LoginPage() {
       } else if (data.error) {
         throw new Error(data.error);
       }
-    } catch (error: any) {
-      toast.error(error.message, {
-        description: "Please check your credentials and try again",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message, {
+          description: "Please check your credentials and try again",
+        });
+      } else {
+        toast.error("Invalid", {
+          description: "Please check your credentials and try again",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
