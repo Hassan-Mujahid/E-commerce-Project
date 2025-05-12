@@ -21,7 +21,7 @@ A modern full-stack e-commerce application built with **Next.js 15**, featuring 
   - Dynamic Slug Routes
 
 - **Modern UI**
-  - Material-UI Components
+  - Shadcn UI Components
   - Tailwind CSS Styling
   - Responsive Product Cards & Layout
 
@@ -32,7 +32,7 @@ A modern full-stack e-commerce application built with **Next.js 15**, featuring 
 - **Frontend**
 
   - Next.js 15 (App Router)
-  - Material-UI
+  - Shadcn UI
   - Tailwind CSS
   - TypeScript
 
