@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
 import { LogOut, ShoppingBag } from "lucide-react";
@@ -15,12 +15,13 @@ type UserType = {
 };
 
 export function DashboardHeader({ user }: { user: UserType }) {
-  const router = useRouter();
+  // const router = useRouter();
   const { logout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
-    router.push("/");
+    // router.push("/");
+    window.location.href = "/";
   };
 
   return (

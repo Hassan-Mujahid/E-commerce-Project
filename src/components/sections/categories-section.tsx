@@ -6,27 +6,32 @@ import { motion } from "framer-motion";
 const categories = [
   {
     name: "Electronics",
-    image: "/placeholder.svg?height=400&width=400",
+    image:
+      "https://images.unsplash.com/photo-1593344484962-796055d4a3a4?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     slug: "electronics",
   },
   {
     name: "Clothing",
-    image: "/placeholder.svg?height=400&width=400",
+    image:
+      "https://plus.unsplash.com/premium_photo-1679056835084-7f21e64a3402?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     slug: "clothing",
   },
   {
     name: "Home & Kitchen",
-    image: "/placeholder.svg?height=400&width=400",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661962720375-ce9097fb4d69?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.svg?height=400&width=400",
     slug: "home",
   },
   {
     name: "Books",
-    image: "/placeholder.svg?height=400&width=400",
+    image:
+      "https://images.unsplash.com/photo-1604866830893-c13cafa515d5?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     slug: "books",
   },
   {
     name: "Toys & Games",
-    image: "/placeholder.svg?height=400&width=400",
+    image:
+      "https://images.unsplash.com/photo-1500995617113-cf789362a3e1?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     slug: "toys",
   },
 ];

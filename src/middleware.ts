@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
+export async function middleware(req: NextRequest) {
+  const token = await req.cookies.get("token")?.value;
   console.log("middleware is working!");
 
   if (!token) {
@@ -15,6 +15,12 @@ export function middleware(req: NextRequest) {
     console.log("No token found", "token:", !token);
     return NextResponse.redirect(new URL("/login", req.url));
   } else {
+    if (
+      req.nextUrl.pathname.startsWith("/login") ||
+      req.nextUrl.pathname.startsWith("/register")
+    ) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
     return NextResponse.next();
   }
 

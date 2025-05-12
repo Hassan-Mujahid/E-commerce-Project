@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { syncUser } = useAuth();
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +44,8 @@ export default function LoginPage() {
         toast("Login successful", {
           description: "You have been logged in successfully",
         });
-        router.push("/dashboard");
+        // router.push("/dashboard");
+        window.location.href = "/dashboard";
       } else if (data.error) {
         throw new Error(data.error);
       }
@@ -95,7 +96,8 @@ export default function LoginPage() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/forgot-password"
+                    // href="/forgot-password"
+                    href={"#"}
                     className="text-sm text-primary hover:underline"
                   >
                     Forgot password?

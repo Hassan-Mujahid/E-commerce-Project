@@ -43,7 +43,7 @@ export function SearchFilters({
       { id: "books", name: "Books", count: 15 },
       { id: "toys", name: "Toys & Games", count: 12 },
     ]);
-  });
+  }, []);
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
